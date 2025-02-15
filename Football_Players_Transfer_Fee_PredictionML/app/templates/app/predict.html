@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predikcija Cijene Igrača</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        form {
+            margin: 20px auto;
+            width: 50%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        input, select {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Predikcija Cijene Igrača</h1>
+
+    <form method="POST" action="{% url 'predict' %}">
+        {% csrf_token %}
+        <label for="team">Tim:</label>
+        <input type="text" id="team" name="team" required>
+
+        <label for="position">Pozicija:</label>
+        <select name="position" id="position">
+            <option value="Goalkeeper">Goalkeeper</option>
+            <option value="Defender Centre-Back">Defender Centre-Back</option>
+            <option value="Defender Left-Back">Defender Left-Back</option>
+            <option value="Defender Right-Back">Defender Right-Back</option>
+            <option value="midfield-DefensiveMidfield">midfield-DefensiveMidfield</option>
+            <option value="midfield-CentralMidfield">midfield-CentralMidfield</option>
+            <option value="midfield-AttackingMidfield">midfield-AttackingMidfield</option>
+            <option value="Attack-LeftWinger">Attack-LeftWinger</option>
+            <option value="Attack-RightWinger">Attack-RightWinger</option>
+            <option value="Attack Centre-Forward">Attack Centre-Forward</option>
+        </select>
+
+        <label for="age">Dob:</label>
+        <input type="number" id="age" name="age" required>
+
+        <label for="goals">Golovi po utakmici:</label>
+        <input type="number" step="any" id="goals" name="goals" required>
+
+        <label for="assists">Asistencije po utakmici:</label>
+        <input type="number" step="any" id="assists" name="assists" required>
+
+        <label for="yellow_cards">Žuti kartoni po utakmici:</label>
+        <input type="number" step="any" id="yellow_cards" name="yellow_cards" required>
+
+        <label for="second_yellow_cards">Drugi žuti karton po utakmici:</label>
+        <input type="number" step="any" id="second_yellow_cards" name="second_yellow_cards" required>
+
+        <label for="red_cards">Crveni kartoni po utakmici:</label>
+        <input type="number" step="any" id="red_cards" name="red_cards" required>
+
+        <label for="goals_conceded">Primljeni golovi po utakmici:</label>
+        <input type="number" step="any" id="goals_conceded" name="goals_conceded" required>
+
+        <label for="clean_sheets">Čiste mreže po utakmici:</label>
+        <input type="number" step="any" id="clean_sheets" name="clean_sheets" required>
+
+        <label for="minutes_played">Minute igrane po utakmici:</label>
+        <input type="number" id="minutes_played" name="minutes_played" required>
+
+        <label for="days_injured">Dani ozlijeđen:</label>
+        <input type="number" id="days_injured" name="days_injured" required>
+
+        <label for="games_injured">Utakmice propuštene zbog ozljede:</label>
+        <input type="number" id="games_injured" name="games_injured" required>
+
+        <label for="award">Nagrada:</label>
+        <input type="text" id="award" name="award">
+
+        <label for="highest_value">Najveća vrijednost:</label>
+        <input type="number" step="any" id="highest_value" name="highest_value" required>
+
+        <label for="position_encoded">Pozicija Encoded:</label>
+        <select id="position_encoded" name="position_encoded">
+            <option value="1">Golman</option>
+            <option value="2">Branič</option>
+            <option value="3">Vezni</option>
+            <option value="4">Napadač</option>
+        </select>
+
+        <label for="winger">Winger:</label>
+        <select id="winger" name="winger">
+            <option value="yes">Da</option>
+            <option value="no">Ne</option>
+        </select>
+
+        <button type="submit">Predvidi Cijenu</button>
+    </form>
+
+    <div id="result">
+        {% if predicted_price %}
+            Predviđena cijena igrača: {{ predicted_price }} €
+        {% endif %}
+        {% if error %}
+            Greška pri predviđanju: {{ error }}
+        {% endif %}
+    </div>
+
+</body>
+</html>
