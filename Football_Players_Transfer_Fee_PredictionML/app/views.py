@@ -59,18 +59,18 @@ class PlayerPredictionView(View):
             }
 
             response = requests.post(AZURE_ML_URL, json=data, headers=headers)
-
+      
             if response.status_code == 200:
                 result = response.content.decode('utf-8')
                 json_obj = json.loads(result)
 
-                print("API Response:", json_obj)
+                print("API Response:", json_obj)  
 
                 try:
                     prediction = json_obj['Results']['WebServiceOutput0'][0]['Scored Labels']
                     return render(request, 'app/predict.html', {"predicted_price": prediction})
                 except KeyError as e:
-                    return render(request, 'app/predict.html', {"error": f"Missing key in response: {str(e)}"})
+                    return render(request, 'app/predict.html', {}) 
             else:
-                return render(request, 'app/predict.html', {"error": f"Error: {response.status_code}, {response.text}"})
+                return render(request, 'app/predict.html', {})
 
