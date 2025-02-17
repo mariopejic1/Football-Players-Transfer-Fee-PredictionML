@@ -43,7 +43,7 @@ class PlayerPredictionView(View):
                             "assists": assists,
                             "yellow cards": yellow_cards, 
                             "second yellow cards": second_yellow_cards,  
-                            "red cards": red_cards,  
+                            "red cards": float(red_cards),  
                             "goals conceded": goals_conceded,  
                             "clean sheets": clean_sheets,  
                             "minutes played": minutes_played,  
